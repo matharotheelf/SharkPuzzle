@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class
-
-
-    NpcMotion : MonoBehaviour
+public class NpcMotion : MonoBehaviour
 {
     enum SharkState
     {
@@ -18,6 +15,7 @@ public class
 
     public NavMeshAgent navMeshAgent;
     public Transform jawRotationPoint;
+    public GameScreen gameOverScreen;
     public float pathEndThreshold = 0.1f;
     public float stepRange = 5f;
     public float pounceSpeed = 10f;
@@ -66,12 +64,22 @@ public class
         return false;
     }
 
+    private void GameOver()
+    {
+        gameOverScreen.Setup("GameOverScreen");
+    }
+
     private void Update()
     {
         UnityEngine.AI.NavMeshHit hit;
         float distanceToEdge = 1;
 
-        if (!(sharkState is SharkState.Killing or SharkState.Killed))
+        if (sharkState == SharkState.Killed)
+        {
+            GameOver();
+        }
+
+            if (!(sharkState is SharkState.Killing or SharkState.Killed))
         {
             if (UnityEngine.AI.NavMesh.FindClosestEdge(transform.position, out hit, UnityEngine.AI.NavMesh.AllAreas))
             {
