@@ -16,7 +16,7 @@ public class GameScreen : MonoBehaviour
         gameObject.transform.Find(screenName).gameObject.SetActive(true);
 
         Cursor.visible = true;
-        Screen.lockCursor = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Restart()

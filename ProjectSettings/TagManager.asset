@@ -12,6 +12,7 @@ TagManager:
   - KillSphere
   - PounceTrigger
   - KillTrigger
+  - Shark
   layers:
   - Default
   - TransparentFX
