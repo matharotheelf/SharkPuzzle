@@ -123,8 +123,6 @@ public class NpcMotion : MonoBehaviour
                     RandomPoint(transform.position, stepRange, out point);
                 }
 
-                Debug.Log(point);
-
                 navMeshAgent.destination = point;
                 hasPath = true;
             }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerScore : MonoBehaviour
 {
     public int score = 0;
-    public int winningScore = 4;
+    public int winningScore = 14;
     [SerializeField] GameScreen victoryScreen;
 
     public void ScorePoint()
