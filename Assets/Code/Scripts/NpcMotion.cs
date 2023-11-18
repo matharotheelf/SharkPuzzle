@@ -14,6 +14,7 @@ public class NpcMotion : MonoBehaviour
     }
 
     [SerializeField] NavMeshAgent navMeshAgent;
+    [SerializeField] GameObject navMeshSurface;
     [SerializeField] Transform jawRotationPoint;
     [SerializeField] GameScreen gameOverScreen;
     [SerializeField] float pathEndThreshold = 0.1f;
@@ -105,21 +106,24 @@ public class NpcMotion : MonoBehaviour
 
         if (!(sharkState is SharkState.Killing or SharkState.Killed))
         {
-            if (UnityEngine.AI.NavMesh.FindClosestEdge(transform.position, out hit, UnityEngine.AI.NavMesh.AllAreas))
+            if (UnityEngine.AI.NavMesh.FindClosestEdge(transform.position, out hit, NavMesh.AllAreas))
             {
                 distanceToEdge = hit.distance;
             }
+
 
             if (AtEndOfPath() || !hasPath)
             {
                 if (distanceToEdge < 1f)
                 {
-                    RandomPoint(transform.position, -stepRange, out point);
+                    point = navMeshSurface.transform.position;
                 }
                 else
                 {
                     RandomPoint(transform.position, stepRange, out point);
                 }
+
+                Debug.Log(point);
 
                 navMeshAgent.destination = point;
                 hasPath = true;
