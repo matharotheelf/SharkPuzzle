@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PounceTrigger : MonoBehaviour
 {
-    public float pounceRadius = 8f;
+    [SerializeField] float pounceRadius = 8f;
 
     void OnTriggerEnter(Collider collider)
     {

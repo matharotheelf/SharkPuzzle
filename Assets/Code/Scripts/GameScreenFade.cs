@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameScreenFade : MonoBehaviour
 {
-    public CanvasGroup screenGroup;
-    public float fadeDuration = 5f;
+    [SerializeField] CanvasGroup screenGroup;
+    [SerializeField] float fadeDuration = 5f;
 
     private float fadeStartTime;
     private bool isFading = true;

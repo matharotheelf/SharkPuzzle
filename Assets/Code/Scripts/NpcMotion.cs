@@ -13,17 +13,17 @@ public class NpcMotion : MonoBehaviour
         Searching
     }
 
-    public NavMeshAgent navMeshAgent;
-    public Transform jawRotationPoint;
-    public GameScreen gameOverScreen;
-    public float pathEndThreshold = 0.1f;
-    public float stepRange = 5f;
-    public float pounceSpeed = 10f;
-    public float searchingSpeed = 1f;
-    public float pounceAngularSpeed = 90f;
-    public float searchingAngularSpeed = 20f;
-    public float killDuration = 1f;
-    public float openJawAngle = 30f;
+    [SerializeField] NavMeshAgent navMeshAgent;
+    [SerializeField] Transform jawRotationPoint;
+    [SerializeField] GameScreen gameOverScreen;
+    [SerializeField] float pathEndThreshold = 0.1f;
+    [SerializeField] float stepRange = 5f;
+    [SerializeField] float pounceSpeed = 10f;
+    [SerializeField] float searchingSpeed = 1f;
+    [SerializeField] float pounceAngularSpeed = 90f;
+    [SerializeField] float searchingAngularSpeed = 20f;
+    [SerializeField] float killDuration = 1f;
+    [SerializeField] float openJawAngle = 30f;
 
     private Vector3 killPosition;
     private Quaternion killRotation;
@@ -32,7 +32,7 @@ public class NpcMotion : MonoBehaviour
     private Vector3 point;
     private bool hasPath = false;
 
-    SharkState sharkState = SharkState.Searching;
+    private SharkState sharkState = SharkState.Searching;
 
     // code from: https://docs.unity3d.com/560/Documentation/Manual/nav-MoveToDestination.html
     bool RandomPoint(Vector3 center, float sRange, out Vector3 result)
@@ -103,12 +103,7 @@ public class NpcMotion : MonoBehaviour
         UnityEngine.AI.NavMeshHit hit;
         float distanceToEdge = 1;
 
-        if (sharkState == SharkState.Killed)
-        {
-            GameOver();
-        }
-
-            if (!(sharkState is SharkState.Killing or SharkState.Killed))
+        if (!(sharkState is SharkState.Killing or SharkState.Killed))
         {
             if (UnityEngine.AI.NavMesh.FindClosestEdge(transform.position, out hit, UnityEngine.AI.NavMesh.AllAreas))
             {
@@ -137,13 +132,18 @@ public class NpcMotion : MonoBehaviour
             Vector3 movePosition = Vector3.Lerp(transform.position, killPosition, t);
             transform.position = movePosition;
 
-            Quaternion moveRotation = Quaternion.Lerp(transform.rotation, killRotation, t);
+            Quaternion moveRotation = Quaternion.Slerp(transform.rotation, killRotation, t);
             transform.rotation = moveRotation;
 
             transform.Find("Head").RotateAround(jawRotationPoint.position, jawRotationPoint.right, openJawAngle * Time.deltaTime/killDuration);
             transform.Find("Jaw").RotateAround(jawRotationPoint.position, jawRotationPoint.right, -openJawAngle * Time.deltaTime / killDuration);
 
             sharkState = Vector3.Distance(transform.position, killPosition) <= 0.01f ? SharkState.Killed : SharkState.Killing;
+
+            if (sharkState == SharkState.Killed)
+            {
+                GameOver();
+            }
         }
     }
 }
