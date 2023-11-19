@@ -15,11 +15,13 @@ public class NpcMotion : MonoBehaviour
 
     [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] GameObject navMeshSurface;
+    [SerializeField] GameObject player;
     [SerializeField] Transform jawRotationPoint;
     [SerializeField] GameScreen gameOverScreen;
     [SerializeField] float pathEndThreshold = 0.1f;
     [SerializeField] float stepRange = 5f;
     [SerializeField] float pounceSpeed = 10f;
+    [SerializeField] float pounceAcceleration = 8f;
     [SerializeField] float searchingSpeed = 1f;
     [SerializeField] float pounceAngularSpeed = 90f;
     [SerializeField] float searchingAngularSpeed = 20f;
@@ -73,9 +75,10 @@ public class NpcMotion : MonoBehaviour
     public void StartPounce()
     {
         sharkState = SharkState.Pounching;
-        playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        playerPosition = player.transform.position;
         navMeshAgent.destination = playerPosition;
         navMeshAgent.speed = pounceSpeed;
+        navMeshAgent.acceleration= pounceAcceleration;
         navMeshAgent.angularSpeed = pounceAngularSpeed;
     }
 
@@ -90,13 +93,13 @@ public class NpcMotion : MonoBehaviour
     {
         sharkState = SharkState.Killing;
         float sharkHeadBodyDistance = Vector3.Distance(transform.Find("HeadPosition").position, transform.position);
-        playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        playerPosition = player.transform.position;
 
         killRotation = Quaternion.LookRotation(playerPosition - transform.position);
         killPosition = playerPosition - sharkHeadBodyDistance * (playerPosition - transform.position).normalized;
         killStartTime = Time.time;
         navMeshAgent.enabled = false;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
+        player.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
     }
 
     private void Update()
