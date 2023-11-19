@@ -27,6 +27,8 @@ public class NpcMotion : MonoBehaviour
     [SerializeField] float searchingAngularSpeed = 20f;
     [SerializeField] float killDuration = 1f;
     [SerializeField] float openJawAngle = 30f;
+    [SerializeField] AudioSource Audio;
+    [SerializeField] AudioClip KillSoundClip;
 
     private Vector3 killPosition;
     private Quaternion killRotation;
@@ -99,6 +101,7 @@ public class NpcMotion : MonoBehaviour
         killPosition = playerPosition - sharkHeadBodyDistance * (playerPosition - transform.position).normalized;
         killStartTime = Time.time;
         navMeshAgent.enabled = false;
+        Audio.PlayOneShot(KillSoundClip);
         player.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
     }
 

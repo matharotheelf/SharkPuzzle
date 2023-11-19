@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KillTrigger : MonoBehaviour
 {
-    [SerializeField] float killRadius = 5f;
+    [SerializeField] float killRadius = 4f;
 
     void OnTriggerEnter(Collider collider)
     {
