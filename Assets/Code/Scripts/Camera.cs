@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-    public Vector3 CameraPlayerDisplacement;
-    
+    [SerializeField] Vector3 CameraPlayerDisplacement;
+    [SerializeField] GameObject player;
+    [SerializeField] float rotationSpeed = 50f;
+
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.transform.position = GameObject.FindWithTag("Player").transform.position + CameraPlayerDisplacement;
-
+        transform.position = player.transform.position + CameraPlayerDisplacement;
     }
 
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.position = GameObject.FindWithTag("Player").transform.position + CameraPlayerDisplacement;
+
+        if (Input.GetButton("RotateCamera"))
+        {
+            CameraPlayerDisplacement = Quaternion.AngleAxis(rotationSpeed * Time.deltaTime, Vector3.up) * CameraPlayerDisplacement;
+        }
+        transform.position = player.transform.position + CameraPlayerDisplacement;
+        transform.LookAt(player.transform);
     }
 }
