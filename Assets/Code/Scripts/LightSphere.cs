@@ -13,14 +13,17 @@ public class LightSphere : MonoBehaviour
 
     [SerializeField] Color initialColor = Color.HSVToRGB(0, 60, 20);
     [SerializeField] Color finalColor = Color.HSVToRGB(60, 60, 100);
+    [SerializeField] AudioSource sphereAudioSource;
+    [SerializeField] float litSoundVolume = 0.15f;
     [SerializeField] float lightingDuration = 10f;
+    [SerializeField] float vibrationDistance = 0.1f;
+    [SerializeField] float vibrationDuration = 0.3f;
     [SerializeField] Renderer lightRenderer;
     [SerializeField] PlayerScore playerScore;
 
 
     private LightState lightState = LightState.Dark;
     private float initialLightTime;
-
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -29,6 +32,7 @@ public class LightSphere : MonoBehaviour
 
             lightState = LightState.Lighting;
             initialLightTime = Time.time;
+            sphereAudioSource.volume = litSoundVolume;
             playerScore.ScorePoint();
         }
     }
@@ -43,7 +47,12 @@ public class LightSphere : MonoBehaviour
 
             lightState = t >= 1 ? LightState.Lit : LightState.Lighting;
         }
-        
+
+        if (lightState is LightState.Lighting or LightState.Lit)
+        {
+            float vDistance = Mathf.Sin(Time.time / vibrationDuration) * vibrationDistance;
+            transform.localPosition = vDistance*transform.right;
+        }   
     }
 
     private static Color LerpHSV(Color initial, Color final, float t)
