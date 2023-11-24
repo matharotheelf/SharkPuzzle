@@ -144,7 +144,7 @@ public class NpcMotion : MonoBehaviour
             transform.rotation = moveRotation;
 
             transform.Find("Head").RotateAround(jawRotationPoint.position, jawRotationPoint.right, openJawAngle * Time.deltaTime/killDuration);
-            transform.Find("Jaw").RotateAround(jawRotationPoint.position, jawRotationPoint.right, -openJawAngle * Time.deltaTime / killDuration);
+            transform.Find("JawHolder").Find("Jaw").RotateAround(jawRotationPoint.position, jawRotationPoint.right, -openJawAngle * Time.deltaTime / killDuration);
 
             sharkState = Vector3.Distance(transform.position, killPosition) <= 0.01f ? SharkState.Killed : SharkState.Killing;
 
