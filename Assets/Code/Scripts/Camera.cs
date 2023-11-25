@@ -17,8 +17,10 @@ public class Camera : MonoBehaviour
     void Update()
     {
         // rotates camera if the rotate button is pressed
-        if (Input.GetButton("RotateCamera"))
+        if (Input.GetButton("RotateCameraLeft"))
         {
+            CameraPlayerDisplacement = Quaternion.AngleAxis(-rotationSpeed * Time.deltaTime, Vector3.up) * CameraPlayerDisplacement;
+        } else if(Input.GetButton("RotateCameraRight")) {
             CameraPlayerDisplacement = Quaternion.AngleAxis(rotationSpeed * Time.deltaTime, Vector3.up) * CameraPlayerDisplacement;
         }
 
