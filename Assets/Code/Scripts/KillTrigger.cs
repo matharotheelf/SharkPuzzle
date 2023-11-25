@@ -10,9 +10,12 @@ public class KillTrigger : MonoBehaviour
     {
         if (collider.gameObject.tag == "Shark")
         {
-            if(Vector3.Distance(collider.transform.position, gameObject.transform.position) < killRadius)
+            // this condition is necessary because the trigger activates unpredicatably
+            // this ensures the shark only kills when it is close to the fish
+            if (Vector3.Distance(collider.transform.position, gameObject.transform.position) < killRadius)
             {
                 NpcMotion shark = collider.gameObject.GetComponent<NpcMotion>();
+                // initiates the shark to kill the target
                 shark.Kill();
             }
         }

@@ -10,7 +10,10 @@ public class PlayerScore : MonoBehaviour
 
     public void ScorePoint()
     {
+        // Increment score
         score += 1;
+
+        // If winning score reached initiate victory
         if (score == winningScore)
         {
             victoryScreen.Setup("VictoryScreen");

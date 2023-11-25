@@ -14,12 +14,15 @@ public class Branch : MonoBehaviour
 
     void Start()
     {
+        // Start intermittent wiggling
         StartCoroutine(Wiggle());
     }
 
     void Update()
     {
         if(isWiggling) {
+
+            // Rotate branch forward and backward to wiggle
             float angle = 2*wiggleAngle*Time.deltaTime / wiggleDuration;
 
             if (2 * (Time.time - wiggleStartTime) < wiggleDuration)
@@ -31,6 +34,7 @@ public class Branch : MonoBehaviour
                 gameObject.transform.Rotate(-angle * Vector3.forward);
             }
 
+            // Complete wiggle and trigger coroutine
             if(Time.time >= wiggleDuration + wiggleStartTime)
             {
                 isWiggling = false;
@@ -41,8 +45,10 @@ public class Branch : MonoBehaviour
 
     IEnumerator Wiggle()
     {
+        // Waits a random number of second so branch is still
         yield return new WaitForSeconds(Random.Range(wigglePauseMinimum, wigglePauseMaximum));
 
+        // Starts a wiggle
         isWiggling = true;
         wiggleStartTime = Time.time;
     }

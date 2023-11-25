@@ -12,13 +12,14 @@ public class GameScreenFade : MonoBehaviour
 
     void OnEnable()
     {
+        // Start screen fade in
         fadeStartTime = Time.time;
         isFading = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Screen opacity lerp to 1 during fade
         if(isFading)
         {
             float t = (Time.time - fadeStartTime) / fadeDuration;
